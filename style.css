@@ -1,41 +1,84 @@
-/* Reset default margin and padding */
+/* =========================
+   RESET
+========================= */
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
-/* Body styling */
+/* =========================
+   BODY
+========================= */
 body {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #688E26;
-    scroll-behavior: smooth; /* Added smooth scrolling */
+    background: linear-gradient(270deg, #5a7f2c, #4CAF50, #5a7f2c);
+    background-size: 300% 300%;
+    animation: bgDrift 20s linear infinite;
+    scroll-behavior: smooth;
 }
 
-/* Container styling */
+/* =========================
+   CONTAINER
+========================= */
 .container {
-    background-color: #FAA613;
+    background: linear-gradient(135deg, #FAA613, #FFD166);
     padding: 2rem;
     border-radius: 1rem;
     min-height: 45vh;
     width: 25vw;
-    box-shadow: 3px 3px rgba(0, 0, 0, 0.33);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    animation: cardFloat 10s ease-in-out infinite,
+               ambientGlow 6s ease-in-out infinite alternate;
+    transition: transform 0.4s cubic-bezier(.2,.8,.2,1),
+                box-shadow 0.4s ease;
 }
 
-/* Form styling */
+.container:hover {
+    transform: translateY(-10px) scale(1.02);
+}
+
+/* =========================
+   FORM
+========================= */
 form {
     margin: 2rem 0 1rem;
+    animation: formReveal 0.9s cubic-bezier(.2,.8,.2,1) forwards;
 }
 
-form select, form input {
+form select,
+form input {
     border: none;
-    width: 80%;
+    width: 100%;
     outline: none;
     border-radius: 0.5rem;
 }
 
+/* =========================
+   INPUT
+========================= */
+form input {
+    border: 1px solid #F44708;
+    font-size: 1rem;
+    padding-left: 6px;
+    height: 2rem;
+    background-color: #FAA613;
+    color: black;
+    transition: box-shadow 0.25s ease,
+                transform 0.25s ease;
+}
+
+form input:focus {
+    box-shadow: 0 0 0 3px rgba(244,71,8,0.35);
+    transform: translateY(-1px);
+}
+
+/* =========================
+   BUTTON
+========================= */
 form button {
     border: none;
     width: 100%;
@@ -43,21 +86,44 @@ form button {
     height: 2.5rem;
     font-size: 1.2rem;
     color: #FAA613;
-    background-color: #A10702;
+    background: linear-gradient(135deg, #A10702, #F44708);
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s ease,
+                box-shadow 0.25s ease;
 }
 
-form input {
-    border: 1px solid #F44708;
-    font-size: 1rem;
-    padding-left: 4px;
-    height: 2rem;
-    width: 100%;
-    background-color: #FAA613;
-    color: black;
+form button::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,0.35),
+        transparent
+    );
+    transform: translateX(-120%);
 }
 
-/* Dropdown styling */
+form button:hover::after {
+    animation: buttonSweep 0.8s ease;
+}
+
+form button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(244,71,8,0.45);
+}
+
+form button:active {
+    transform: translateY(0);
+    box-shadow: 0 6px 18px rgba(244,71,8,0.35);
+}
+
+/* =========================
+   DROPDOWN
+========================= */
 .dropdown {
     display: flex;
     justify-content: space-between;
@@ -67,10 +133,11 @@ form input {
 
 .dropdown i {
     font-size: 1.3rem;
-    margin-top: 1rem;
 }
 
-/* Select container styling */
+/* =========================
+   SELECT CONTAINER
+========================= */
 .select-container {
     display: flex;
     align-items: center;
@@ -78,6 +145,13 @@ form input {
     width: 6rem;
     border: 1px solid #F44708;
     border-radius: 0.7rem;
+    transition: transform 0.25s ease,
+                box-shadow 0.25s ease;
+}
+
+.select-container:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
 }
 
 .select-container img {
@@ -86,21 +160,24 @@ form input {
 
 .select-container select {
     font-size: 1rem;
-    width: auto;
     background-color: #FAA613;
     cursor: pointer;
 }
 
-/* Message styling */
+/* =========================
+   MESSAGE
+========================= */
 .msg {
     margin: 1.5rem 0 2rem;
     font-size: 1rem;
+    animation: msgFade 0.5s ease forwards;
 }
 
-/* Custom scrollbar styling for WebKit browsers */
+/* =========================
+   SCROLLBAR
+========================= */
 ::-webkit-scrollbar {
-    width: 5px;
-    border: 1px solid black;
+    width: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -108,7 +185,45 @@ form input {
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: #ffeb3b; /* Yellow color */
+    background: linear-gradient(#ffeb3b, #ff9800);
     border-radius: 10px;
-    border: 3px solid #f1f1f1;
+}
+
+/* =========================
+   KEYFRAMES
+========================= */
+@keyframes bgDrift {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
+@keyframes cardFloat {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+@keyframes ambientGlow {
+    from { box-shadow: 0 10px 30px rgba(0,0,0,0.35); }
+    to   { box-shadow: 0 20px 60px rgba(0,0,0,0.45); }
+}
+
+@keyframes formReveal {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes buttonSweep {
+    from { transform: translateX(-120%); }
+    to   { transform: translateX(120%); }
+}
+
+@keyframes msgFade {
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }
