@@ -56,3 +56,30 @@ btn.addEventListener("click", async (evt)=> {
 window.addEventListener("load", () => {
     updateExchangeRate();
 })
+
+const card = document.querySelector('.container');
+    const motionMax = 15; // The "Crazy" factor (Degrees of rotation)
+
+    document.addEventListener('mousemove', (e) => {
+        const { clientX, clientY } = e;
+        const { left, top, width, height } = card.getBoundingClientRect();
+
+        // Calculate the center of the card
+        const centerX = left + width / 2;
+        const centerY = top + height / 2;
+
+        // Calculate mouse distance from center (-1 to 1)
+        const mouseX = (clientX - centerX) / (window.innerWidth / 2);
+        const mouseY = (clientY - centerY) / (window.innerHeight / 2);
+
+        // Apply rotation (Y rotation depends on X mouse movement)
+        const rotateX = mouseY * -motionMax; 
+        const rotateY = mouseX * motionMax;
+
+        card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+
+    // Reset position when mouse leaves the window
+    document.addEventListener('mouseleave', () => {
+        card.style.transform = `rotateX(0deg) rotateY(0deg)`;
+    });
